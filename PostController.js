@@ -21,21 +21,31 @@ class PostController {
     }
     async getOne(req, res) {
         try {
-
+            const {id} = req.params
+            if (!id) res.status(400).json({message: 'id не указан'})
+            const post = await Post.findById(id);
+            return res.json(post)
         } catch (e) {
             console.log(e)
         }
     }
     async update(req, res) {
         try {
+            const post = req.body
+            if (!post._id) res.status(400).json({message: 'id не указан'})
 
+            const updatePost = await Post.findByIdAndUpdate(post._id, post, {new: true})
+            return res.json(updatePost);
         } catch (e) {
             console.log(e)
         }
     }
     async delete(req, res) {
         try {
-
+            const {id} = req.params
+            if (!id) res.status(400).json({message: 'id не указан'})
+            const post = await Post.findByIdAndDelete(id)
+            return res.json(post);
         } catch (e) {
             console.log(e)
         }
